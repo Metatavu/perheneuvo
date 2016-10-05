@@ -1,0 +1,126 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Perheneuvo
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,300', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href=root+'/stylesheet/index.css')
+    
+    script
+      | var SERVER_ROOT = "#{root}";
+    
+    script(src='https://code.jquery.com/jquery-2.1.3.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+    script(src=root+'/script/jquery.placeholder.min.js')
+    script(src=root+'/script/ie9glory.js')
+    script(src=root+'/script/common.js')
+    script(src=root+'/script/index.js')
+    
+    
+  body
+    div(id='main-index-container' class='container text-center')
+      h1(class='page-title') Pyydä apua!
+      div(class='info-container')
+        p Tarvitsetko apua tai tukea nykyisessä elämäntilanteessasi?
+          br
+          p Kysymyksesi voi liittyä oman perheesi, ystäväsi tai muun perheen tilanteeseen. Voit ilmaista huolesi ja pyytää apua tällä lomakkeella. Lomakkeen vastaanottaa Perheneuvon tiimin jäsenet, jotka ottavat yhteyttä sinuun tai ilmoittamaasi perheeseen. Kirjoita lomakkeelle tietoja lapsesta/perheestä ja huolenkuvaus. Tiedot ovat luottamuksellisia. Varhaisella avuntarpeen tunnistamisella pyritään tukemaan perheiden hyvinvointia ja auttamaan arjessa selviytymistä.
+          br
+          br
+          | 
+        button(id='show-flag-form', class='btn btn-default btn-lg custom-btn btn-frontpage') Pyydä apua!&nbsp;
+          i(class='glyphicon glyphicon-heart')
+        br
+        br
+        br
+        div(class='row')
+          div(class='col-lg-3')
+          div(class='col-lg-3')
+            img(class='img-responsive center-block', src=root+'/img/mkl.png', style="max-width:300px; margin-top:40px;")
+          div(class='col-lg-3')
+            img(class='img-responsive center-block', src=root+'/img/lupaus.png', style="max-width:300px;-ms-transform: rotate(20deg);-webkit-transform: rotate(20deg);transform: rotate(20deg);")
+          div(class='col-lg-3')
+        br
+        br
+        a(style='font-size:10px; color:white;' href=root+'/img/Tietosuojaseloste.pdf') tietosuojaseloste
+      br
+      div(style='display:none', class='loader-container')
+        img(src=root+'/img/loader.gif', class='center-block')
+      div(style='display:none', class='success-msg-container')
+        h1(class='success-icon')
+          i(class='glyphicon glyphicon-ok')
+        p Huolenne on vastaanotettu.
+          br
+          | Kiitos kun välität.
+      div(style='display:none', class='error-msg-container')
+        h1(class='error-icon')
+          i(class='glyphicon glyphicon-remove')
+        p Tapahtui virhe.
+          br
+          | Viesti palvelimelta:
+          span(id='server-error-message')
+          br
+          | Tarkista lomakkeen arvot ja yritä uudelleen.
+      div(style='display:none;', class='form-container')
+        form(id='send-flag-form')
+          p(class='form-separator') Kenestä on huoli?
+          div(class='form-group')
+            label(for='flag-target-name', class='sr-only') Nimi:
+            input(id='flag-target-name', name='target_name', class='form-control flag-form-input', type='text', placeholder='Nimi', data-toggle='tooltip', data-placement='right', title='Henkilön suku- ja etunimi, jos tiedossa.' )
+          div(class='form-group')
+            label(for='flag-target-address', class='sr-only') Osoite:
+            input(id='flag-target-address', name='target_address', class='form-control flag-form-input', type='text', placeholder='Osoite, postinumero, -toimipaikka', data-toggle='tooltip', data-placement='right', title='Henkilön osoite mahdollisimman tarkasti.')
+          div(class='form-group')
+            label(for='flag-target-phone', class='sr-only') Puhelin:
+            input(id='flag-target-phone', name='target_phone', class='form-control flag-form-input', type='text', placeholder='Puhelinnumero', data-toggle='tooltip', data-placement='right', title='Henkilön puhelinnumero, jos tiedossa.')
+          div(class='main-form-checkbox-input')
+            input(type='checkbox', name='target_told', id='flag-target-told', class='css-checkbox')
+            label(for='flag-target-told', class='css-label', data-toggle='tooltip', data-placement='right', data-html='true', title='Rastita tämä jos henkilö tietää että tämä ilmoitus tehdään.') Henkilö on tietoinen huolen ilmauksesta.
+          div(class='main-form-checkbox-input')
+            input(type='checkbox', name='source_anonym', id='flag-source-anonym', class='css-checkbox')
+            label(for='flag-source-anonym', class='css-label',  data-toggle='tooltip', data-placement='right', data-html='true', title='Tietojani ei saa luovuttaa ilmoituksen kohteelle.') Haluan pysyä nimettömänä.
+          div(class='form-group')
+            label(for='flag-problem-category', class='sr-only') Huolen aihe liittyy:
+            select(id='flag-problem-category', name='problem_category', class='form-control flag-form-input', data-toggle='tooltip', data-placement='right', title='Mihin kategoriaan huolenaiheesi liittyy?', style='background:#EEE;')
+              option(value='', disabled, selected) Huolen aihe liittyy:
+              option(value='kasvatushaasteet') kasvatushaasteet
+              option(value='käyttäytymisen') käyttäytymisen pulmat
+              option(value='koulunkäynti') koulunkäynti
+              option(value='kiusaaminen') kiusaaminen
+              option(value='yksinäisyys') yksinäisyys
+              option(value='jaksaminen') jaksaminen
+              option(value='parisuhde') parisuhde
+              option(value='mielenterveys') mielenterveys
+              option(value='päihteet') päihteet
+              option(value='väkivalta') väkivalta
+              option(value='talous') talous
+          div(class='form-group')
+            label(for='flag-target-details', class='sr-only') Lisätiedot:
+            textarea(id='flag-target-details', name='target_info', class='form-control flag-form-input', rows='2', placeholder='Lisätiedot, esim miksi olet huolissasi?')
+          p(class='form-separator') Ilmoittajan tiedot:
+          div(class='form-group')
+            label(for='flag-source-name', class='sr-only') Nimi:
+            input(id='flag-source-name', name='source_name', class='form-control flag-form-input', type='text', placeholder='Nimi', required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma nimesi')
+          div(class='form-group')
+            label(for='flag-source-address', class='sr-only') Osoite:
+            input(id='flag-source-address', name='source_address', class='form-control flag-form-input', type='text', placeholder='Osoite, postinumero, -toimipaikka', required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma osoitteesi, sisältäen postinumeron ja toimipaikan.' )
+          div(class='form-group')
+            label(for='flag-source-phone', class='sr-only') Puhelin:
+            input(id='flag-source-phone', name='source_phone', class='form-control flag-form-input', type='text', placeholder='Puhelinnumero', data-customerror='Syötä puhelinnumero.',  pattern="^[\+]?[ ]?([0-9]{2,3})[ ]?([-]?[0-9]{6,10})", required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma puhelinnumerosi.')
+          div(class='form-group')
+            label(for='flag-source-email', class='sr-only') Sähköposti:
+            input(id='flag-source-email', name='source_email', class='form-control flag-form-input', type='email', placeholder='Sähköpostiosoite', data-toggle='tooltip', data-placement='right', data-html='true', title='Sähköpostiosoitteesi, jos on.' )
+          div(class='form-group')
+            label(for='flag-source-relation', class='sr-only') Huolen aihe liittyy:
+            select(style='background:#EEE;', id='flag-source-relation', name='source_relation', class='form-control flag-form-input', data-toggle='tooltip', data-placement='right', required, data-html='true', title='<b>Pakollinen tieto</b><br/>Suhteesi huolen kohteena olevaan henkilöön.')
+              option(value='', disabled, selected) Suhteesi huolen kohteeseen:
+              option(value='omainen') Omainen
+              option(value='naapuri') Naapuri
+              option(value='ystäva') Ystävä
+              option(value='palveluntarjoaja') Palveluntarjoaja
+              option(value='muu') Muu 
+          button(class='btn btn-default btn-lg custom-btn pull-right') Lähetä >>
+          button(type='button', id='cancel-flag-btn', class='btn btn-default btn-lg custom-btn pull-left') << Peruuta

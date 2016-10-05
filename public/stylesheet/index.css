@@ -1,0 +1,205 @@
+html { 
+  background: #000;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:100%;
+}
+body {
+	background:transparent;
+	padding-top:70px;
+	color: #FFF;
+	font-family: 'Open Sans', sans-serif;
+	height:100%;
+}
+h1 {
+	font-weight:800;
+	text-transform: uppercase;
+	
+}
+p {
+	font-size:20px;
+}
+.form-visible {
+	-webkit-box-shadow: 0px 0px 20px 0px #66AFE9;
+	-moz-box-shadow:    0px 0px 20px 0px #66AFE9;
+	box-shadow:         0px 0px 20px 0px #66AFE9;
+	background: #eeeeee;
+	background: -moz-linear-gradient(left, #eeeeee 0%, #eeeeee 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#eeeeee), color-stop(100%,#eeeeee));
+	background: -webkit-linear-gradient(left, #eeeeee 0%,#eeeeee 100%);
+	background: -o-linear-gradient(left, #eeeeee 0%,#eeeeee 100%);
+	background: -ms-linear-gradient(left, #eeeeee 0%,#eeeeee 100%);
+	background: linear-gradient(to right, #eeeeee 0%,#eeeeee 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=1 );
+	min-height:100%;
+}
+.form-visible > h1 {
+	color: #000 !important;
+}
+.form-visible > .form-container > #send-flag-form > p {
+    color: #000 !important;
+}
+.form-container {
+	margin-left:auto;
+	margin-right: auto;
+	max-width:520px;
+	margin-bottom:120px;
+}
+.success-msg-container {
+	text-align: center;
+	color: #006600;
+}
+.success-icon {
+	
+}
+.error-msg-container {
+    text-align: center;
+    color: #FF0000; 
+}
+.error-icon {
+	
+}
+.page-title {
+	margin-bottom:30px;
+	font-size: 72px;
+}
+.flag-form-input.not-valid {
+	border-bottom:1px solid rgb(255,0,0);
+}
+.error-msg-container {
+	color: rgb(255,0,0);
+}
+.tooltip {
+	color:#000;
+}
+.tooltip-inner {
+	background-color: transparent;
+	text-align: left;
+	color:#000;
+}
+.tooltip-arrow {
+    border-right-color: #000 !important;
+}
+.custom-btn {
+	color:#000;
+	background:transparent;
+	border-radius:0px;
+	box-shadow: none;
+	text-transform: uppercase;
+	border:1px solid black;
+	text-shadow:none;
+	transition: all 0.5s ease;
+}
+.btn-frontpage {
+    color:#fff;
+    border:1px solid white;
+}
+.custom-btn:hover {
+	color: #66AFE9;
+    border-color: #66AFE9;
+    text-shadow:none;
+    background:transparent;
+}
+.custom-btn:focus {
+    color: #66AFE9;
+    border-color: #66AFE9;
+    text-shadow:none;
+    background:transparent;
+}
+.main-form-checkbox-input {
+	text-align:left;
+}
+.form-separator {
+	text-align:left;
+	margin-bottom:20px;
+}
+.flag-form-input {
+	background:transparent;
+	border:0;
+	box-shadow: none;
+	border-bottom:1px solid #000;
+	border-radius:0px;
+	font-size:16px;
+	padding:0px;
+	color:#000;
+	padding-bottom:10px;
+}
+.flag-form-input > option:not(:first-child) {
+	color:#000;
+}
+.flag-form-input:focus {
+	border-color: #66AFE9;
+    outline: 0px none;
+    box-shadow:none;
+    /*box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);*/
+}
+textarea.flag-form-input {
+    background:transparent;
+    box-shadow: none;
+    border:1px solid #000;
+    border-radius:0px;
+    font-size:16px;
+    padding:3px;
+    color:#000;
+    padding-bottom:10px;
+}
+.flag-form-input::-webkit-input-placeholder {
+    color: #000;
+    opacity:0.6;
+}
+.flag-form-input:-moz-placeholder {
+    /* FF 4-18 */
+    color: #000;
+    opacity:0.6;
+}
+.flag-form-input::-moz-placeholder {
+    /* FF 19+ */
+    color: #000;
+    opacity:0.6;
+}
+.flag-form-input:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #000;
+    opacity:0.8;
+}
+input[type=checkbox].css-checkbox {
+    position:absolute;
+    z-index:-1000;
+    left:-1000px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height:1px;
+    width:1px;
+    margin:-1px;
+    padding:0;
+    border:0;
+}
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:20px;
+    height:15px; 
+    display:inline-block;
+    line-height:15px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:16px;
+    vertical-align:middle;
+    cursor:pointer;
+    font-weight: 400;
+    margin-bottom:12px;
+    color:#000;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -15px;
+}
+label.css-label {
+    background-image:url(../img/checkbox.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

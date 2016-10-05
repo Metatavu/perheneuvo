@@ -1,0 +1,10 @@
+var mailerConf = {
+  sender: '',
+  service: '',
+  auth: {
+    user: '',
+    pass: ''
+  }
+};
+
+module.exports = mailerConf;
