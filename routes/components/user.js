@@ -33,7 +33,7 @@ exports.list = function(req, res) {
 
 exports.logout = function(req, res) {
   req.logout();
-  res.redirect(SERVER_ROOT);
+  res.redirect('/');
 };
 
 exports.manage = function(req, res){
