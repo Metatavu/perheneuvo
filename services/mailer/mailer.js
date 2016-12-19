@@ -1,19 +1,16 @@
-var nodemailer = require('nodemailer');
-var conf = require('./config.js');
+var config = require('./config.js');
+var mailgun = require('mailgun-js')({apiKey: config.api_key, domain: config.domain});
+var sender = config.sender+'@'+config.domain;
 
-var transporter = nodemailer.createTransport({
-  service: conf.service,
-  auth: {
-      user: conf.auth.user,
-      pass: conf.auth.pass
-  }
-});
-
-exports.sendMail = function(to, subject, text){
-  transporter.sendMail({
-    from: conf.sender,
+exports.sendMail = function(to, subject, text, callback) {
+  mailgun.messages().send({
+    from: sender,
     to: to,
     subject: subject,
-    text: text
+    html: text
+  }, function (error, body) {
+    if(typeof(callback) == 'function') {
+      callback(error, body);
+    }
   });
 };
