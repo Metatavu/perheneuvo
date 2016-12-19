@@ -28,7 +28,7 @@ exports.create = function(req, res){
     flagDAO.create(target_name, target_address, target_phone, target_told, problem_category, source_anonym, source_name, source_address, source_phone, source_email, source_relation, desc, function(flag){
       userDAO.list(function(users){
         for(var i = 0, j = users.length;i < j;i++){
-                mailer.sendMail(users[i].email, 'Uusi avun pyyntö', 'Perheneuvo järjestelmään on tullut uusi avun pyyntö, käy katsomassa tarkemmat tiedot: http://open.mikkeli.fi/perheneuvo/login');
+                mailer.sendMail(users[i].email, 'Uusi avun pyyntö', 'Perheneuvo järjestelmään on tullut uusi avun pyyntö, käy katsomassa tarkemmat tiedot: https://essote.perheneuvo.fi/login');
         }
       });
       res.send(flag);
