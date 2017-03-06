@@ -5,6 +5,16 @@
   var selectedTimeRange = 'hour';
   var values = [];
   
+  function serializeMonthCount(data) {
+    var result = $('<ul>');
+    for(var monthYearKey in data) {
+      if(data.hasOwnProperty(monthYearKey)) {
+        result.append($('<li>').text(monthYearKey + ': '+data[monthYearKey]));
+      }
+    }
+    return result.html();
+  }
+
   function millisToHumanReadable(ms, short){
     var seconds = Math.floor(ms / 1000);
     var minutes = 0;
@@ -38,6 +48,7 @@
   });
   
   $.getJSON(SERVER_ROOT+'/flag/list/all', function(flags){
+    var monthCount = {};
     var totalProcessingTime = 0;
     var processedCount = 0;
     var rangeCounter = 0;
@@ -50,6 +61,12 @@
     $('#allFlagCount').text(flags.length);
     for(var i = 0, j = flags.length;i < j; i++){
       var flag = flags[i];
+      var monthYearKey = moment(flag.created).format('YYYY-MM');
+      if(typeof(monthCount[monthYearKey]) == 'undefined') {
+        monthCount[monthYearKey] = 1;
+      } else {
+        monthCount[monthYearKey]++;
+      }
       if(flag.created > timeRange.end){
         values[rangeCounter] = {key:timeRange.start, avg: totalProcessingTime / totalCount, count: rangeCount, processed: rangeProcessedCount};
         rangeCount = 0;
@@ -72,6 +89,7 @@
       rangeTotal += processingTime;
 
     }
+    $('#month-count').html(serializeMonthCount(monthCount));
     values[rangeCounter] = {key:timeRange.start, avg: totalProcessingTime / totalCount, count: rangeCount, processed: rangeProcessedCount};
     var avgPlot = [];
     var countPlot = [];
