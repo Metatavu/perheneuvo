@@ -13,9 +13,15 @@ var flagSchema = mongoose.Schema({
   source_email : String,
   source_relation : { type: String, required: true },
   state: { type: String, default: 'odottaa' },
+  contact_source:  { type: String, default: 'lomake' },
   desc: String,
   processedBy: String,
   action: String,
+  comments: [{
+    body: String,
+    author: String,
+    date: Date 
+  }],
   created: Number,
   processed: Number
 });

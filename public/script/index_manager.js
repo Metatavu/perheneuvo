@@ -48,9 +48,22 @@
             '<td>'+flag.source_email+'</td>' +
             '<td>'+source_anonym+'</td>' +
             '<td>'+new Date(flag.created).toLocaleString()+'</td>'+
+            '<td>'+(flag.contact_source ? flag.contact_source : 'lomake')+'</td>'+
             '<td>'+stateMap[flag.state]+'</td></tr>');
       }
     });
+  }
+  
+  function renderComments(comments) {
+    var commentsArr = comments || [];
+    $('.comments-container').empty();
+    for(var i = 0; i < commentsArr.length; i++) {
+      $('.comments-container').append(renderComment(commentsArr[i]));
+    }
+  } 
+  
+  function renderComment(comment) {
+    return '<div class="form-group"><p class="form-control-static"><pre>'+comment.body+'</pre></p><span class="help-block">'+ comment.author +' '+ new Date(comment.date).toLocaleString() +'</span></div><hr/>';
   }
   
   getFlags('odottaa');
@@ -74,56 +87,61 @@
     $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Ilmoittajan email:</label><p class="col-sm-10">'+data.source_email+'</p></div>');
     $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Ilmoittajan suhde kohteeseen:</label><p class="col-sm-10">'+data.source_relation+'</p></div><hr/>');
     $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Liputettu:</label><p class="col-sm-10">'+new Date(data.created).toLocaleString()+'</p></div>');
+    $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Lähde:</label><p class="col-sm-10">'+(data.contact_source ? data.contact_source : 'lomake')+'</p></div>');
     if(typeof(data.processed) !== 'undefined'){
       $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Käsitelty:</label><p class="col-sm-10">'+new Date(data.processed).toLocaleString()+'</p></div>');
       $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Käsitellyt:</label><p class="col-sm-10 processed-by-container">'+data.processedBy+'</p></div>');
-      $.getJSON(SERVER_ROOT+'/user/get/'+data.processedBy, function(user){
-        $('.processed-by-container').text(user.email);
-      });
+      if(data.processedBy && data.processedBy.indexOf('@') < 0) {
+        $.getJSON(SERVER_ROOT+'/user/get/'+data.processedBy, function(user){
+          $('.processed-by-container').text(user.email);
+        });
+      }
     }
     $('.flag-info').append('<div class="row"><label class="col-sm-2 control-label">Tila:</label><p class="col-sm-10 flag-created">'+stateMap[data.state]+'</p></div>');
     $('.flag-info').append('<label class="control-label">Kuvaus:</label>');
     $('.flag-info').append('<div class="form-group"><p class="form-control-static">'+data.desc+'</p></div><hr/>');
-    if(typeof(data.action) !== 'undefined'){
+    if(data.state === 'processed'){
       $('.action-performed-container').hide();
       $('.set-processed-btn').hide();
       $('.set-to-processing-container').hide();
       $('.set-processing-btn').hide();
-      $('.flag-info').append('<label class="control-label">Tehty toimenpide:</label>');
-      $('.flag-info').append('<div class="form-group"><p class="form-control-static">'+data.action+'</p></div><hr/>');
+      if(typeof(data.action) !== 'undefined'){
+        $('.flag-info').append('<label class="control-label">Tehty toimenpide:</label>');
+        $('.flag-info').append('<div class="form-group"><p class="form-control-static">'+data.action+'</p></div><hr/>');
+      }
     } else if(data.state === 'kasittelyssa'){
-      $('.set-processed-btn').hide();
       $('.set-to-processing-container').hide();
       $('.action-performed-container').show();
       $('.set-processed-btn').show();
     } else{
-      $('.set-processed-btn').show();
       $('.set-to-processing-container').show();
       $('.action-performed-container').show();
       $('.set-processed-btn').show();
     }
+    renderComments(data.comments);
     $('#respond-to-flag-modal').modal('show');
   });
   
   $('#respond-to-flag-form').submit(function(e){
     e.preventDefault();
-    var data = getFormValues(e);
+    var operation = $("input[type=submit][clicked=true]").attr('data-operation');
+    var data = getFormValues(e, operation === 'add_comment');
     var method = $(e.target).attr('method');
     var action = $(e.target).attr('action');
-    var operation = $("input[type=submit][clicked=true]").val();
-    if(operation === 'Ota käsittelyyn'){
-      data.operation = 'set_to_processing';
-    }else{
-      data.operation = 'set_to_processed';
-    }
+    data.operation = operation;
+
     $.ajax({
       type: method.toUpperCase(),
       url: SERVER_ROOT+action,
       dataType: "json",
       data: data,
       success: function(flag){
-        removeRow(flag._id);
-        $('#respond-to-flag-modal').modal('hide');
+        if(data.operation === 'add_comment') {
+          renderComments(flag.comments);
+        } else {
+          removeRow(flag._id);
+          $('#respond-to-flag-modal').modal('hide');
+        }
       }
     });
   });

@@ -2,23 +2,25 @@ extends layout
 
 block content
   if user.role == 'manager' || user.role == 'admin'
-    table(class='table table-hover')
-      caption Uudet liputukset:
-      thead
-        tr
-          th Nimi
-          th Osoite
-          th Puhelin
-          th Tietoinen
-          th Kategoria
-          th Ilmoittaja
-          th Ilm. osoite
-          th Ilm. puh
-          th Ilm. email
-          th Anonyymi
-          th Luotu
-          th Tila
-      tbody(id='new-flags-table')
+    .table-container
+      table(class='table table-hover')
+        caption Uudet liputukset:
+        thead
+          tr
+            th Nimi
+            th Osoite
+            th Puhelin
+            th Tietoinen
+            th Kategoria
+            th Ilmoittaja
+            th Ilm. osoite
+            th Ilm. puh
+            th Ilm. email
+            th Anonyymi
+            th Luotu
+            th Lähde
+            th Tila
+        tbody(id='new-flags-table')
     div(id='respond-to-flag-modal', class='modal fade')
       div(class='modal-dialog')
         div(class='modal-content')
@@ -29,13 +31,16 @@ block content
               h4(class='modal-title') Tiedot
             div(class='modal-body')
               div(class='flag-info')
+              div(class='comments-container')
               div(class='form-group set-to-processing-container')
-                input(type='submit', class='btn btn-primary set-processing-btn', value='Ota käsittelyyn')
+                input(type='submit', class='btn btn-primary set-processing-btn', data-operation='set_to_processing', value='Ota käsittelyyn')
               div(class='form-group action-performed-container')              
-                label(for='flag-performed-action') Tehty toimenpide:
-                textarea(name='action', class='form-control', id='flag-performed-action', rows='4')
+                label(for='flag-performed-action') Lisää kommentti:
+                textarea(name='comment', class='form-control', id='flag-performed-action', rows='4')
                 br
-                input(type='submit', class='btn btn-primary set-processed-btn', value='Merkkaa käsitellyksi')
+                input(type='submit', class='btn btn-primary add-comment-btn', data-operation='add_comment' value='Lisää kommentti')
+              div(class='form-group mark-processed-container')
+                input(type='submit', class='btn btn-primary set-processed-btn', data-operation='set_to_processed', value='Merkkaa käsitellyksi')
             div(class='modal-footer')
               a(class='btn btn-danger', data-dismiss='modal') Peruuta
     script(src=root+'/script/index_manager.js')

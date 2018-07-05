@@ -9,7 +9,7 @@ exports.listAllOrderByCreated = function(callback) {
   });
 };
 
-exports.create = function(target_name, target_address, target_phone, target_told, problem_category, source_anonym, source_name, source_address, source_phone, source_email, source_relation, desc, callback) {
+exports.create = function(target_name, target_address, target_phone, target_told, problem_category, source_anonym, source_name, source_address, source_phone, source_email, source_relation, desc, contact_source, callback) {
   var flag = new Flag();
   flag.target_name = target_name;
   flag.target_address = target_address;
@@ -23,6 +23,7 @@ exports.create = function(target_name, target_address, target_phone, target_told
   flag.source_email = source_email;
   flag.source_relation = source_relation;
   flag.desc = desc;
+  flag.contact_source = contact_source;
   flag.created = new Date().getTime();
   flag.save(function(err, flag) {
     if (err)
@@ -32,14 +33,13 @@ exports.create = function(target_name, target_address, target_phone, target_told
   });
 };
 
-exports.setProcessed = function(id, userid, action, callback) {
+exports.setProcessed = function(id, userid, callback) {
   Flag.findOne({
     _id : id
   }, function(err, flag) {
     if (err)
       throw err;
 
-    flag.action = action;
     flag.state = 'processed';
     flag.processed = new Date().getTime();
     flag.processedBy = userid;
@@ -50,6 +50,30 @@ exports.setProcessed = function(id, userid, action, callback) {
       callback(flag);
     });
   });
+};
+
+exports.addComment = function(id, user, commentText, callback) {
+  Flag.findOne({
+    _id : id
+  }, function(err, flag) {
+    if (err)
+      throw err;
+
+    const comments = flag.comments || [];
+    comments.push({
+      body: commentText,
+      author: user,
+      date: new Date()
+    });
+    
+    flag.comments = comments;
+    flag.save(function(err, flag) {
+      if (err)
+        throw err;
+
+      callback(flag);
+    });
+  });  
 };
 
 exports.setProcessing = function(id, callback) {

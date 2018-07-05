@@ -19,13 +19,14 @@ exports.create = function(req, res){
   var source_anonym = typeof(req.body.source_anonym) === 'undefined' ? false : req.body.source_anonym;
   var source_email = typeof(req.body.source_email) === 'undefined' ? '' : req.body.source_email;
   var problem_category = typeof(req.body.problem_category) === 'undefined' ? '' : req.body.problem_category;
+  var contact_source = typeof(req.body.contact_source) === 'undefined' ? 'lomake' : req.body.contact_source;
   try{
     notEmpty([req.body.source_name, req.body.source_address, req.body.source_phone, req.body.source_relation]);
     var source_name = req.body.source_name;
     var source_address = req.body.source_address;
     var source_phone = req.body.source_phone;
     var source_relation = req.body.source_relation;
-    flagDAO.create(target_name, target_address, target_phone, target_told, problem_category, source_anonym, source_name, source_address, source_phone, source_email, source_relation, desc, function(flag){
+    flagDAO.create(target_name, target_address, target_phone, target_told, problem_category, source_anonym, source_name, source_address, source_phone, source_email, source_relation, desc, contact_source, function(flag){
       userDAO.list(function(users){
         for(var i = 0, j = users.length;i < j;i++){
                 mailer.sendMail(users[i].email, 'Uusi avun pyyntö', 'Perheneuvo järjestelmään on tullut uusi avun pyyntö, käy katsomassa tarkemmat tiedot: https://essote.perheneuvo.fi/login');
@@ -47,17 +48,31 @@ exports.listByState = function(req, res){
 
 exports.process = function(req, res){
   var id = req.body.flag_id;
-  var action = req.body.action;
-  var user = req.user._id;
-  if(req.body.operation === 'set_to_processing'){
-    flagDAO.setProcessing(id, function(flag){
-      res.send(flag);
-    });
-  }else{
-    flagDAO.setProcessed(id, user, action, function(flag){
-      res.send(flag);
-    });
-  }
+  var comment = req.body.comment;
+  var userId = req.user._id
+
+  userDAO.findById(userId, function(user){
+    switch (req.body.operation) {
+      case 'set_to_processing':
+        flagDAO.setProcessing(id, function(flag){
+          res.send(flag);
+        });
+      break;
+      case 'set_to_processed':
+        flagDAO.setProcessed(id, user.email, function(flag){
+          res.send(flag);
+        });
+      break;
+      case 'add_comment':
+        flagDAO.addComment(id, user.email, comment, function(flag){
+          res.send(flag);
+        });
+      break;
+      default:
+        console.error("Unknown operation " + req.body.operation);
+      break;
+    }
+  });
 };
 
 exports.list = function(req, res){
@@ -67,8 +82,8 @@ exports.list = function(req, res){
 };
 
 exports.listByCreatedRange = function(req, res){
-  var start = req.param('start');
-  var end = req.param('end');
+  var start = parseInt(req.param('start'), 10);
+  var end = parseInt(req.param('end'), 10);
   flagDAO.listByCreatedRange(start, end, function(flags){
     res.send(flags);
   });

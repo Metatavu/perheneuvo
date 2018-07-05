@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   
-  window.getFormValues = function(e){
+  window.getFormValues = function(e, keepData){
     var values = {};
     for(var i = 0; i < e.target.length;i++){
       if($(e.target[i]).attr('name')){
@@ -12,7 +12,9 @@
           value = $(e.target[i]).val();
         }
         values[$(e.target[i]).attr('name')] = value;
-        $(e.target[i]).val("");
+        if (!keepData) {
+          $(e.target[i]).val("");
+        }
       }
     }
     return values;

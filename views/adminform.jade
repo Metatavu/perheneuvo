@@ -1,0 +1,89 @@
+extends layout
+
+block content
+  div(style='display:none', class='loader-container')
+    img(src=root+'/img/loader.gif', class='center-block')
+  div(style='display:none', class='success-msg-container')
+    h1(class='success-icon')
+      i(class='glyphicon glyphicon-ok')
+    p Huolenne on vastaanotettu.
+      br
+      | Kiitos kun välität.
+  div(style='display:none', class='error-msg-container')
+    h1(class='error-icon')
+      i(class='glyphicon glyphicon-remove')
+    p Tapahtui virhe.
+      br
+      | Viesti palvelimelta:
+      span(id='server-error-message')
+      br
+      | Tarkista lomakkeen arvot ja yritä uudelleen.
+  .row
+  .col-xs-10
+    div(class='form-container')
+      form(id='send-flag-form')
+        p(class='form-separator') Kenestä on huoli?
+        div(class='form-group')
+          label(for='flag-target-name', class='sr-only') Nimi:
+          input(id='flag-target-name', name='target_name', class='form-control flag-form-input', type='text', placeholder='Nimi', data-toggle='tooltip', data-placement='right', title='Henkilön suku- ja etunimi, jos tiedossa.' )
+        div(class='form-group')
+          label(for='flag-target-address', class='sr-only') Osoite:
+          input(id='flag-target-address', name='target_address', class='form-control flag-form-input', type='text', placeholder='Osoite, postinumero, -toimipaikka', data-toggle='tooltip', data-placement='right', title='Henkilön osoite mahdollisimman tarkasti.')
+        div(class='form-group')
+          label(for='flag-target-phone', class='sr-only') Puhelin:
+          input(id='flag-target-phone', name='target_phone', class='form-control flag-form-input', type='text', placeholder='Puhelinnumero', data-toggle='tooltip', data-placement='right', title='Henkilön puhelinnumero, jos tiedossa.')
+        div(class='main-form-checkbox-input')
+          input(type='checkbox', name='target_told', id='flag-target-told', class='css-checkbox')
+          label(for='flag-target-told', class='css-label', data-toggle='tooltip', data-placement='right', data-html='true', title='Rastita tämä jos henkilö tietää että tämä ilmoitus tehdään.') Henkilö on tietoinen huolen ilmauksesta.
+        div(class='main-form-checkbox-input')
+          input(type='checkbox', name='source_anonym', id='flag-source-anonym', class='css-checkbox')
+          label(for='flag-source-anonym', class='css-label',  data-toggle='tooltip', data-placement='right', data-html='true', title='Tietojani ei saa luovuttaa ilmoituksen kohteelle.') Haluan pysyä nimettömänä.
+        div(class='form-group')
+          label(for='flag-problem-category', class='sr-only') Huolen aihe liittyy:
+          select(id='flag-problem-category', name='problem_category', class='form-control flag-form-input', data-toggle='tooltip', data-placement='right', title='Mihin kategoriaan huolenaiheesi liittyy?', style='background:#EEE;')
+            option(value='', disabled, selected) Huolen aihe liittyy:
+            option(value='kasvatushaasteet') kasvatushaasteet
+            option(value='käyttäytymisen') käyttäytymisen pulmat
+            option(value='koulunkäynti') koulunkäynti
+            option(value='kiusaaminen') kiusaaminen
+            option(value='yksinäisyys') yksinäisyys
+            option(value='jaksaminen') jaksaminen
+            option(value='parisuhde') parisuhde
+            option(value='mielenterveys') mielenterveys
+            option(value='päihteet') päihteet
+            option(value='väkivalta') väkivalta
+            option(value='talous') talous
+        div(class='form-group')
+          label(for='flag-target-details', class='sr-only') Lisätiedot:
+          textarea(id='flag-target-details', name='target_info', class='form-control flag-form-input', rows='2', placeholder='Lisätiedot, esim miksi olet huolissasi?')
+        p(class='form-separator') Ilmoittajan tiedot:
+        div(class='form-group')
+          label(for='flag-source-name', class='sr-only') Nimi:
+          input(id='flag-source-name', name='source_name', class='form-control flag-form-input', type='text', placeholder='Nimi', required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma nimesi')
+        div(class='form-group')
+          label(for='flag-source-address', class='sr-only') Osoite:
+          input(id='flag-source-address', name='source_address', class='form-control flag-form-input', type='text', placeholder='Osoite, postinumero, -toimipaikka', required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma osoitteesi, sisältäen postinumeron ja toimipaikan.' )
+        div(class='form-group')
+          label(for='flag-source-phone', class='sr-only') Puhelin:
+          input(id='flag-source-phone', name='source_phone', class='form-control flag-form-input', type='text', placeholder='Puhelinnumero', data-customerror='Syötä puhelinnumero.',  pattern="^[\+]?[ ]?([0-9]{2,3})[ ]?([-]?[0-9]{6,10})", required, data-toggle='tooltip', data-placement='right', data-html='true', title='<b>Pakollinen tieto</b><br/>Oma puhelinnumerosi.')
+        div(class='form-group')
+          label(for='flag-source-email', class='sr-only') Sähköposti:
+          input(id='flag-source-email', name='source_email', class='form-control flag-form-input', type='email', placeholder='Sähköpostiosoite', data-toggle='tooltip', data-placement='right', data-html='true', title='Sähköpostiosoitteesi, jos on.' )
+        div(class='form-group')
+          label(for='flag-source-relation', class='sr-only') Huolen aihe liittyy:
+          select(style='background:#EEE;', id='flag-source-relation', name='source_relation', class='form-control flag-form-input', data-toggle='tooltip', data-placement='right', required, data-html='true', title='<b>Pakollinen tieto</b><br/>Suhteesi huolen kohteena olevaan henkilöön.')
+            option(value='', disabled, selected) Suhteesi huolen kohteeseen:
+            option(value='omainen') Omainen
+            option(value='naapuri') Naapuri
+            option(value='ystäva') Ystävä
+            option(value='palveluntarjoaja') Palveluntarjoaja
+            option(value='muu') Muu 
+        div(class='form-group')
+          select(style='background:#EEE;', id='flag-contact-source', name='contact_source', class='form-control flag-form-input', data-toggle='tooltip', data-placement='right', data-html='true', title='Mistä yhteydenotto on tullut')
+            option(value='', disabled, selected) Mistä yhteydenotto on tullut:
+            option(value='lomake') Lomake
+            option(value='puhelinsoitto') Puhelinsoitto
+            option(value='muu') Muu
+        button(class='btn btn-default btn-lg custom-btn pull-right') Lähetä >>
+      .col-xs-2
+      script(src=root+'/script/index.js')

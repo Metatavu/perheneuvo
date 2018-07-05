@@ -25,6 +25,13 @@ exports.statistics = function(req, res) {
   });
 };
 
+exports.adminform = function(req, res) {
+  res.render('adminform', {
+    user : req.user,
+    root: SERVER_ROOT
+  });
+};
+
 exports.forgotPassword = function(req, res) {
   res.render('forgotpassword', {root: SERVER_ROOT});
 };

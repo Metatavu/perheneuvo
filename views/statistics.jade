@@ -1,19 +1,11 @@
 extends layout
 
 block content
-  //div(class='btn-group', role='group')
-    //button(class='timeRangeSelector', type='button', class='btn btn-default') Vuosi
-    //button(class='timeRangeSelector', type='button', class='btn btn-default') Kuukausi
-    //button(class='timeRangeSelector', type='button', class='btn btn-default') Viikko
-  p Keskimääräinen käsittelyaika:&nbsp;
-    span(id='avgProcessingTime')
-  p Ilmoituksia vastaanotettu:&nbsp;
-    span(id='allFlagCount')
-  p Ilmoituksia käsitelty:&nbsp;
-    span(id='ProcessedCount')
-  div(id='month-count')
-  div(id='plot-container', style='height:500px;')
+  div(class='form-group')
+    label(for='statictics-time-range') Tilastot ajalta:
+    input(id='statictics-time-range', class='form-control', type='text')
+    span.help-block Aloita valitsemalla aikajakso
+  .statistics-container
   script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js')
-  script(src=root+'/script/jquery.flot.min.js')
-  script(src=root+'/script/jquery.flot.time.min.js')
+  script(src=root+'/script/daterangepicker.js')
   script(src=root+'/script/statistics.js')

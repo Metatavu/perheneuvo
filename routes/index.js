@@ -24,6 +24,7 @@ module.exports = function(app, passport) {
   /** Common routes * */
   app.get(SERVER_ROOT, common.index);
   app.get(SERVER_ROOT+'/admin', authenticate(['manager', 'admin']), common.adminindex);
+  app.get(SERVER_ROOT+'/adminform', authenticate(['manager', 'admin']), common.adminform);
   app.get(SERVER_ROOT+'/statistics', authenticate(['manager', 'admin']), common.statistics);
   app.get(SERVER_ROOT+'/login', common.login);
   app.get(SERVER_ROOT+'/forgotpassword', common.forgotPassword);

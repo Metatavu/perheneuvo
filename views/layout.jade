@@ -7,6 +7,7 @@ html
     title Minä Välitän
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href=root+'/stylesheet/daterangepicker.css')
     link(rel='stylesheet', href=root+'/stylesheet/common.css')
     script
       | var SERVER_ROOT = "#{root}";
@@ -24,7 +25,9 @@ html
                 span(class='navSectionHeader') Toiminnot:
                 hr(class='navDivider')
               li
-                a(href=root+'/admin', class='show-flags-btn') Liputukset
+                a(href=root+'/adminform') Lisää yhteydenotto
+              li
+                a(href=root+'/admin', class='show-flags-btn') Yhteydenotot
               li
                 a(href=root+'/statistics') Tilastot
             if user.role == 'admin'
@@ -51,5 +54,15 @@ html
                         a(href=root+'/changepass') Vaihda salasana
                       li
                         a(href=root+'/logout') Kirjaudu ulos
+                  if user.role == 'manager' || user.role == 'admin'
+                    li.hidden-sm.hidden-md.hidden-lg
+                      a(href=root+'/admin', class='show-flags-btn') Yhteydenotot
+                    li.hidden-sm.hidden-md.hidden-lg
+                      a(href=root+'/adminform') Lisää yhteydenotto
+                    li.hidden-sm.hidden-md.hidden-lg
+                      a(href=root+'/statistics') Tilastot
+                  if user.role == 'admin'
+                    li.hidden-sm.hidden-md.hidden-lg
+                      a(href=root+'/user/manage') Käyttäjähallinta
           div(class='container-fluid')
             block content
