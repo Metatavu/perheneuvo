@@ -10,7 +10,7 @@
     
     for(var i = 0; i < flags.length; i++) {
       var source = flags[i].contact_source || 'lomake';
-      var reason = flags[i].problem_category;
+      var reason = flags[i].problem_category || 'muu';
       
       if (statistics.fromSources[source]) {
         statistics.fromSources[source]++;
