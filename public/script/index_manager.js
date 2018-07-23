@@ -138,6 +138,7 @@
       success: function(flag){
         if(data.operation === 'add_comment') {
           renderComments(flag.comments);
+          $('textarea[name="comment"]').val('');
         } else {
           removeRow(flag._id);
           $('#respond-to-flag-modal').modal('hide');

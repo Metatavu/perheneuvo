@@ -60,7 +60,13 @@ exports.process = function(req, res){
       break;
       case 'set_to_processed':
         flagDAO.setProcessed(id, user.email, function(flag){
-          res.send(flag);
+          if (comment) {
+            flagDAO.addComment(id, user.email, comment, function(flag){
+              res.send(flag);
+            });
+          } else {
+            res.send(flag);
+          }
         });
       break;
       case 'add_comment':
