@@ -1,6 +1,6 @@
 {
   "name": "perheneuvo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Web application to send concerns about kids and family life to city officials",
   "main": "app.js",
   "scripts": {
