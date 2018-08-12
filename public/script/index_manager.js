@@ -101,7 +101,7 @@
     $('.flag-info').append('<label class="control-label">Kuvaus:</label>');
     $('.flag-info').append('<div class="form-group"><p class="form-control-static">'+data.desc+'</p></div><hr/>');
     if(data.state === 'processed'){
-      $('.action-performed-container').hide();
+      $('.action-performed-container').show();
       $('.set-processed-btn').hide();
       $('.set-to-processing-container').hide();
       $('.set-processing-btn').hide();
