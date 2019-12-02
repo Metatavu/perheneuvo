@@ -1,7 +1,0 @@
-var mailerConf = {
-  api_key: '',
-  domain: '',
-  sender: ''
-};
-
-module.exports = mailerConf;
